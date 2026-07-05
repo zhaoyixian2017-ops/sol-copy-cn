@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>复制营业网点名称</title>
+  <style>
+    :root {
+      --primary: #0046ff;
+      --bg: #f5f7fb;
+      --text: #111827;
+      --muted: #5f6b7a;
+      --card: #ffffff;
+      --success: #047857;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text);
+    }
+    .card {
+      width: min(100%, 430px);
+      background: var(--card);
+      border-radius: 24px;
+      padding: 30px 24px;
+      text-align: center;
+      box-shadow: 0 12px 34px rgba(0,0,0,.10);
+    }
+    .brand {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-size: 25px;
+      margin: 0 0 14px;
+      line-height: 1.35;
+    }
+    .desc {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0 0 22px;
+    }
+    .copy-text {
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      background: #eef2f8;
+      border-radius: 18px;
+      padding: 20px 10px;
+      margin: 0 0 20px;
+      word-break: keep-all;
+    }
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      padding: 18px;
+      font-size: 22px;
+      font-weight: 900;
+      background: var(--primary);
+      color: #fff;
+      cursor: pointer;
+    }
+    .status {
+      min-height: 30px;
+      margin: 18px 0 0;
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .success {
+      color: var(--success);
+      font-weight: 800;
+    }
+    .hint {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #7b8491;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand">Shinhan SOL Global</div>
+    <h1>请复制营业网点名称</h1>
+    <p class="desc">请点击下面的按钮，复制营业网点名称，然后返回 <b>Shinhan SOL Global</b> App 粘贴。</p>
+    <div class="copy-text" id="textToCopy">안중금융센터</div>
+    <button type="button" onclick="copyText()">📋 一键复制</button>
+    <p class="status" id="status">点击按钮后，请返回 App 粘贴。</p>
+    <p class="hint">如果无法复制，请长按上方文字后手动复制。</p>
+  </main>
+
+  <script>
+    async function copyText() {
+      const text = "안중금융센터";
+      const status = document.getElementById("status");
+
+      try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = "✅ 复制成功！请返回 Shinhan SOL Global App 并粘贴。";
+        status.className = "status success";
+      } catch (error) {
+        const temp = document.createElement("textarea");
+        temp.value = text;
+        temp.setAttribute("readonly", "");
+        temp.style.position = "absolute";
+        temp.style.left = "-9999px";
+        document.body.appendChild(temp);
+        temp.select();
+
+        try {
+          document.execCommand("copy");
+          status.textContent = "✅ 复制成功！请返回 Shinhan SOL Global App 并粘贴。";
+          status.className = "status success";
+        } catch (fallbackError) {
+          status.textContent = "请长按“안중금융센터”后复制。";
+          status.className = "status";
+        }
+
+        document.body.removeChild(temp);
+      }
+    }
+  </script>
+</body>
+</html>
